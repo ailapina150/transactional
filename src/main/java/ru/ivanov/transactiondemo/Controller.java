@@ -11,32 +11,21 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 public class Controller {
-  private final Dao dao;
+  private final Service service;
 
-  public Controller(Dao dao) {
-    this.dao = dao;
+  public Controller(Service service) {
+    this.service = service;
   }
 
   @PostMapping("/order")
-  @Transactional
   public void makeOrder(@RequestBody Purchase purchase) {
-    dao.createPurchase(purchase);
-    method();
-    dao.writeOffMoney(purchase);
+    service.createOrder(purchase);
   }
 
   @PostMapping("/customer")
   public void createCustomer(@RequestBody Customer customer) {
-    dao.createCustomer(customer);
+
+    service.createCustomer(customer);
   }
 
-
-  @SneakyThrows
-  private void method() {
-    Thread.sleep(60000000);
-  }
-
-  // private void method() {
-  //   throw new RuntimeException();
-  // }
 }
